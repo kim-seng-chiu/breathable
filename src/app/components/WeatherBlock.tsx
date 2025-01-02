@@ -18,12 +18,7 @@ const WeatherBlock: React.FC = () => {
         if (location) {
             getWeather({ latitude: location.latitude, longitude: location.longitude }).then(weather => {
                 setWeather(weather);
-            }),
-                ['weather'],
-            {
-                revalidate: 60 * 60,
-                tags: ['weather']
-            };
+            });
         }
     })
 
@@ -46,16 +41,27 @@ const WeatherBlock: React.FC = () => {
                 <p>{Math.round(weather?.temperature)}
                     <button
                         type="button"
-                        className="inline-block rounded px-1 pb-1 pt-1 text-xs font-medium text-gray-100/50 focus:text-white-900 focus:text-md">
+                        className="inline-block rounded px-1 pb-1 pt-1 text-md text-gray-100/50 focus:text-white focus:text-lg focus:font-bold">
                         &#8451;
-                    </button>
+                        </button>
                     <button
                         type="button"
-                        className="inline-block rounded px-1 pb-1 pt-1 text-xs font-medium text-gray-100/50 focus:text-white-900 focus:text-md">
+                        className="inline-block rounded px-1 pb-1 pt-1 text-md text-gray-100/50 focus:text-white focus:text-lg focus:font-bold">
                         &#8457;
                     </button>
                 </p>
-                <p>{Math.round(weather?.windspeed)}</p>
+                <p>{Math.round(weather?.windspeed)}
+                    <button
+                        type="button"
+                        className="inline-block rounded px-1 pb-1 pt-1 text-md text-gray-100/50 focus:text-white focus:text-lg focus:font-bold">
+                        kph
+                        </button>
+                    <button
+                        type="button"
+                        className="inline-block rounded px-1 pb-1 pt-1 text-md text-gray-100/50 focus:text-white focus:text-lg focus:font-bold">
+                        mph
+                    </button>
+                </p>
             </div>
             <div>
                 <p>Humidity: {weather?.humidity}</p>

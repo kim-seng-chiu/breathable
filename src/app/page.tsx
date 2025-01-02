@@ -1,26 +1,20 @@
 import Image from "next/image";
 import { gradingAQ } from "./lib/gradingAQ";
+// import dynamic from 'next/dynamic';
+// const LocationDisplay = dynamic(() => import('./components/LocationDisplay'), { ssr: false });
+import TitleBlock from "./components/TitleBlock";
 
 export default async function Home() {
   const result = await gradingAQ();
   const displayStyles = "w-40 h-40 rounded-full inline-flex items-center justify-center text-white text-xl font-bold fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-  
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <div className="flex font-sans flex-col items-center justify-center gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-center">
-            <span className="text-purple-500">air check</span>
-          </h1>
-          <h3 className="text-green-800 text-md text-center">
-            location goes here
-          </h3>
+          <TitleBlock />
         </div>
         <div className="flex content-start gap-6">
-          <div className={`${result ? result.updatedStyle : displayStyles}`}>
-            <p className="text-lg font-bold">{result?.aqi}</p>
-          </div>
           <div className={`${result ? result.updatedStyle : displayStyles}`}>
             <p className="text-lg font-bold">{result?.aqi}</p>
           </div>

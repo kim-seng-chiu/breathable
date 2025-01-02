@@ -132,12 +132,31 @@ export async function get() {
 }
 
 export async function getLocal(args: LocationData) {
+    console.log(args.latitude, args.longitude);
     try {
-        const result: Response = await fetch(`${process.env.OPEN_CAGE_DATA_URL}/geocode/v1/json?q=${args.latitude},${args.longitude}&key=${process.env.OPEN_CAGE_DATA_API_KEY}`, {
+        console.log("Url:", process.env.NEXT_PUBLIC_OPEN_CAGE_DATA_BASE_URL);
+        const result: Response = await fetch(`${process.env.NEXT_PUBLIC_OPEN_CAGE_DATA_BASE_URL}/geocode/v1/json?q=${args.latitude},${args.longitude}&key=${process.env.NEXT_PUBLIC_OPEN_CAGE_DATA_API_KEY}`, {
             method: "GET"
         });
         const jsonResult: any = await result.json();
         return jsonResult["results"][0]["components"]["city"];
+    } catch (err: any) {
+        throw new Error(err.message)
+    }
+}
+
+export async function getWeather(args: LocationData) {
+    // this keeps running in the background
+    try {
+        const result: Response = await fetch(`${process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_BASE_URL}/weather?lat=${args.latitude}&lon=${args.longitude}&APPID=${process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY}&units=metric`, {
+            method: "GET"
+        });
+        const jsonResult: any = await result.json();
+        return {
+            temperature: jsonResult["main"]["temp"],
+            windspeed: jsonResult["wind"]["speed"],
+            humidity: jsonResult["main"]["humidity"],
+        };
     } catch (err: any) {
         throw new Error(err.message)
     }
